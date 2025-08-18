@@ -39,7 +39,7 @@ class DriverFactory:
 
         # Fix: explicitly set Firefox binary for Ubuntu / CI
         options.binary_location = "/opt/firefox/firefox" 
-        service = Service("/usr/local/bin/geckodriver")
+        service = Service(executable_path="/usr/local/bin/geckodriver")
         driver = webdriver.Firefox(service=service, options=options)
         driver.set_window_size(self.width, self.height)
         return driver
