@@ -35,6 +35,9 @@ class DriverFactory:
             options.add_argument("--headless")
         options.add_argument(f"--width={self.width}")
         options.add_argument(f"--height={self.height}")
+
+        options.binary_location = "/snap/bin/firefox"
+
         driver = webdriver.Firefox(options=options)
         driver.set_window_size(self.width, self.height)
         return driver
