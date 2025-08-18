@@ -2,7 +2,7 @@ import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
-
+from selenium.webdriver.firefox.service import Service
 class DriverFactory:
     def __init__(self):
         self.browser = os.getenv('BROWSER', 'chrome')
@@ -39,9 +39,8 @@ class DriverFactory:
 
         # Fix: explicitly set Firefox binary for Ubuntu / CI
         options.binary_location = "/opt/firefox/firefox" 
-
-
-        driver = webdriver.Firefox(options=options)
+        service = Service("/usr/local/bin/geckodriver")
+        driver = webdriver.Firefox(service=service, options=options)
         driver.set_window_size(self.width, self.height)
         return driver
 
