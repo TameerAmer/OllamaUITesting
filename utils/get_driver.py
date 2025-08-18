@@ -38,8 +38,9 @@ class DriverFactory:
         options.add_argument(f"--height={self.height}")
 
         # Fix: explicitly set Firefox binary for Ubuntu / CI
-        options.binary_location = "/usr/bin/firefox"
-        
+        options.binary_location = "/opt/firefox/firefox" 
+
+
         driver = webdriver.Firefox(options=options)
         driver.set_window_size(self.width, self.height)
         return driver
