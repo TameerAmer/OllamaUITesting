@@ -36,10 +36,6 @@ class DriverFactory:
             options.add_argument("--headless")
         options.add_argument(f"--width={self.width}")
         options.add_argument(f"--height={self.height}")
-
-        # Add this line to set the binary explicitly
-        options.binary_location = "/usr/bin/firefox"
-        
         driver = webdriver.Firefox(options=options)
         driver.set_window_size(self.width, self.height)
         return driver
