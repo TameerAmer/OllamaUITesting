@@ -2,7 +2,6 @@ import os
 import sys
 import unittest
 import time
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from utils.get_driver import get_driver
@@ -11,13 +10,7 @@ from pages.settings_page import SettingsPage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import os
-import allure
 
-from dotenv import load_dotenv
-
-load_dotenv('.env.compose')
-
-print(os.getenv("YOLO_VERSION"))
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:3000")
 
 class ExampleTestCase(unittest.TestCase):
@@ -26,13 +19,6 @@ class ExampleTestCase(unittest.TestCase):
         self.driver.implicitly_wait(5)
         self.home = HomePage(self.driver)
         self.settings = SettingsPage(self.driver)
-        allure.dynamic.label("browser", os.getenv("BROWSER"))
-        allure.dynamic.label("resolution", f"{os.getenv('SCREEN_WIDTH')}x{os.getenv('SCREEN_HEIGHT')}")
-        allure.dynamic.label("yolo_version", os.getenv("YOLO_VERSION"))
-        allure.dynamic.label("yolo_img_tag", os.getenv("YOLO_IMG_TAG"))
-        allure.dynamic.label("ollama_version", os.getenv("OLLAMA_VERSION"))
-        allure.dynamic.label("ollama_ui_img_tag", os.getenv("OLLAMA_UI_IMG_TAG"))
-        allure.dynamic.label("postgres_version", os.getenv("POSTGRES_VERSION"))
 
     def tearDown(self):
         self.driver.quit()
