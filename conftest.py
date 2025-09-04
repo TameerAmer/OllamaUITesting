@@ -2,11 +2,6 @@ import os
 import allure
 import pytest
 
-from dotenv import load_dotenv
-import os
-
-# Load variables from .env.compose
-load_dotenv(dotenv_path=".env.compose")
 
 def pytest_configure(config):
     os.makedirs("allure-results", exist_ok=True)
@@ -22,7 +17,6 @@ def pytest_configure(config):
         f.write(f"YOLO.Version={os.environ.get('YOLO_VERSION')}\n")
         f.write(f"YOLO.Image={os.environ.get('YOLO_IMG_TAG')}\n")
         f.write(f"Postgres.Version={os.environ.get('POSTGRES_VERSION')}\n")
-
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
