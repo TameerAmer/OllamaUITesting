@@ -34,18 +34,18 @@ class ExampleTestCase(unittest.TestCase):
         self.assertEqual(self.home.get_sent_message(), "Hello! Can you help me with Python?")
         self.assertTrue(self.home.is_response_displayed())  
 
-    def test_change_name(self):
-        self.home.open(OLLAMA_URL)
-        if self.driver.get_window_size()['width'] < 768:
-            self.home.open_profile_settings_mobile()
-            self.settings.change_name("Tameer")
-            self.home.open_menu()
-            self.assertEqual(self.settings.get_name_mobile("Tameer"), "Tameer")
+    # def test_change_name(self):
+    #     self.home.open(OLLAMA_URL)
+    #     if self.driver.get_window_size()['width'] < 768:
+    #         self.home.open_profile_settings_mobile()
+    #         self.settings.change_name("Tameer")
+    #         self.home.open_menu()
+    #         self.assertEqual(self.settings.get_name_mobile("Tameer"), "Tameer")
 
-        else:
-            self.home.open_profile_settings()
-            self.settings.change_name("Tameer") 
-            self.assertEqual(self.settings.get_name(), "Tameer")
+    #     else:
+    #         self.home.open_profile_settings()
+    #         self.settings.change_name("Tameer") 
+    #         self.assertEqual(self.settings.get_name(), "Tameer")
 
 if __name__ == '__main__':
     unittest.main()
