@@ -9,6 +9,8 @@ from pages.home_page import HomePage
 from pages.settings_page import SettingsPage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import os
+import allure
 
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:3000")
 
@@ -22,11 +24,24 @@ class ExampleTestCase(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
     
+    @allure.label("browser", os.getenv("BROWSER"))
+    @allure.label("resolution", f"{os.getenv('SCREEN_WIDTH')}x{os.getenv('SCREEN_HEIGHT')}")
+    @allure.label("yolo_version", os.getenv("YOLO_VERSION"))
+    @allure.label("yolo_img_tag", os.getenv("YOLO_IMG_TAG"))
+    @allure.label("ollama_version", os.getenv("OLLAMA_VERSION"))
+    @allure.label("ollama_ui_img_tag", os.getenv("OLLAMA_UI_IMG_TAG"))
+    @allure.label("postgres_version", os.getenv("POSTGRES_VERSION"))
     def test_page_title(self):
         self.home.open(OLLAMA_URL)
         self.assertIn("Ollama UI", self.home.get_title())
 
-
+    @allure.label("browser", os.getenv("BROWSER"))
+    @allure.label("resolution", f"{os.getenv('SCREEN_WIDTH')}x{os.getenv('SCREEN_HEIGHT')}")
+    @allure.label("yolo_version", os.getenv("YOLO_VERSION"))
+    @allure.label("yolo_img_tag", os.getenv("YOLO_IMG_TAG"))
+    @allure.label("ollama_version", os.getenv("OLLAMA_VERSION"))
+    @allure.label("ollama_ui_img_tag", os.getenv("OLLAMA_UI_IMG_TAG"))
+    @allure.label("postgres_version", os.getenv("POSTGRES_VERSION"))
     def test_send_message(self):
         self.home.open(OLLAMA_URL)
         # self.home.select_gemma3()
