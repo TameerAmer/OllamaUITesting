@@ -29,7 +29,7 @@ class ExampleTestCase(unittest.TestCase):
 
     def test_send_message(self):
         self.home.open(OLLAMA_URL)
-        self.home.select_gemma3()
+        # self.home.select_gemma3()
         self.home.send_message("Hello! Can you help me with Python?")
         self.assertEqual(self.home.get_sent_message(), "Hello! Can you help me with Python?")
         self.assertTrue(self.home.is_response_displayed())  
