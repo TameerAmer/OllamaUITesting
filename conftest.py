@@ -21,21 +21,36 @@ def pytest_configure(config):
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_call(item):
-    """
-    Automatically attach labels to each test without repeating them.
-    """
     browser = os.environ.get("BROWSER")
-    resolution = f"{os.environ.get('SCREEN_WIDTH')}x{os.environ.get('SCREEN_HEIGHT')}"
+    res_w = os.environ.get("SCREEN_WIDTH")
+    res_h = os.environ.get("SCREEN_HEIGHT")
+    resolution_pixels = f"{res_w}x{res_h}" if res_w and res_h else None
+    resolution_name = os.environ.get("TEST_NAME")  # or matrix.resolution.name passed in env
     environment = os.environ.get("ENVIRONMENT")
 
+    # Expose as Allure parameters (these show in Parameters section)
+    if browser:
+        allure.dynamic.parameter("browser", browser)
+    if resolution_name:
+        allure.dynamic.parameter("resolution", resolution_name)
+    if resolution_pixels:
+        allure.dynamic.parameter("screen", resolution_pixels)
+    if environment:
+        allure.dynamic.parameter("environment", environment)
+
+    # Still keep labels for advanced filtering/search
     with allure.step("Test metadata"):
-        allure.dynamic.label("browser", browser)
-        allure.dynamic.label("resolution", resolution)
-        allure.dynamic.label("environment", environment)
-        allure.dynamic.label("YOLO_VERSION", os.environ.get("YOLO_VERSION"))
-        allure.dynamic.label("YOLO_IMG_TAG", os.environ.get("YOLO_IMG_TAG"))
-        allure.dynamic.label("OLLAMA_VERSION", os.environ.get("OLLAMA_VERSION"))
-        allure.dynamic.label("OLLAMA_UI_IMG_TAG", os.environ.get("OLLAMA_UI_IMG_TAG"))
-        allure.dynamic.label("POSTGRES_VERSION", os.environ.get("POSTGRES_VERSION"))
+        if browser:
+            allure.dynamic.label("browser", browser)
+        if resolution_name:
+            allure.dynamic.label("resolution", resolution_name)
+        if resolution_pixels:
+            allure.dynamic.label("screen", resolution_pixels)
+        if environment:
+            allure.dynamic.label("environment", environment)
+        for key in ["YOLO_VERSION","YOLO_IMG_TAG","OLLAMA_VERSION","OLLAMA_UI_IMG_TAG","POSTGRES_VERSION"]:
+            val = os.environ.get(key)
+            if val:
+                allure.dynamic.label(key.lower(), val)
 
     yield
